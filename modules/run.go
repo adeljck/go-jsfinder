@@ -1,17 +1,19 @@
 package modules
 
 import (
-	"fmt"
 	"jsfinder/common"
+	"log"
 )
 
 func Run() {
 	if common.FilePath == "" {
 		Result, err := GetResponseData(common.URL)
-		common.Results = append(common.Results, *Result)
-		fmt.Println(Result)
-		fmt.Println(err)
-		ExportCsv()
+		if err != nil {
+			log.Fatalln(err)
+		} else {
+			common.Results = append(common.Results, *Result)
+			ExportCsv()
+		}
 	} else {
 
 	}
