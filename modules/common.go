@@ -27,31 +27,42 @@ func GetResponseData(Url string) (*common.Result, error) {
 	result.BodySize = resp.Size()
 	result.Code = resp.StatusCode()
 	result.RawData = resp.Body()
-	result.Title, _, _ = Extract(resp.Body(), "title", "")
+	_, result.Title = Extract(resp.Body(), "title", "")
 	if result.Title == "" {
 		result.Title = "None"
 	}
 	return result, nil
 }
-func Extract(RawData []byte, Tag string, Attr string) (string, string, bool) {
-	targetAttr := ""
-	InnerText := ""
-	exists := false
+func Extract(RawData []byte, Tag string, Attr string) (targetAttr []string, InnerText string) {
+	targetAttr = make([]string, 0)
+	InnerText = ""
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(string(RawData)))
 	if err != nil {
 		log.Fatalln(err)
 	}
-	target := doc.Find(Tag)
 	if Attr == "" {
-		InnerText = target.Text()
+		InnerText = doc.Find(Tag).Text()
 	} else {
-		targetAttr, exists = target.Attr(Attr)
+		doc.Find(Tag).Each(func(i int, s *goquery.Selection) {
+			data, _ := s.Attr(Attr)
+			if data != "" {
+				targetAttr = append(targetAttr, data)
+			}
+		})
 	}
-	return InnerText, targetAttr, exists
+	return targetAttr, InnerText
 }
 func CheckIsApi(RawData []byte) bool {
 	if string(RawData[:2]) == "{\"" {
 		return true
 	}
 	return false
+}
+func CheckIsIn(source []string, target string) (index int, exists bool) {
+	for i, v := range source {
+		if v == target {
+			return i, true
+		}
+	}
+	return -1, false
 }

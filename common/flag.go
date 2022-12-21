@@ -2,6 +2,8 @@ package common
 
 import (
 	"flag"
+	"fmt"
+	"os"
 	"runtime"
 )
 
@@ -20,10 +22,11 @@ func Banner() {
 
 func ParseParma() {
 	Banner()
+	flag.Usage = myUsage
 	flag.StringVar(&FilePath, "f", "", "The File Contains Url or JS File That You Want To Scan.")
 	flag.StringVar(&Cookie, "c", "", "Target Site's Cookie.")
 	flag.StringVar(&URL, "u", "", "The Target Website You Want To Scan.")
-	flag.BoolVar(&JSFilePath, "j", false, "Find In JS File,Default Is True.")
+	flag.BoolVar(&JSFile, "j", false, "Find In JS File,Default Is True.")
 	flag.IntVar(&Thread, "t", 10, "Web Scan Thread.Default Is 10.")
 	flag.BoolVar(&DeepFind, "d", false, "Deep Find Website.")
 	flag.BoolVar(&CsvOutPut, "csv", false, "Export Scan Result To A Csv File.")
@@ -32,4 +35,8 @@ func ParseParma() {
 	flag.IntVar(&MaxCPUProc, "m", runtime.NumCPU()/2, "Max CPU Nums To Run Programs,Default Is The Half Of Your Total CPU Nums.")
 	flag.Parse()
 	runtime.GOMAXPROCS(MaxCPUProc)
+}
+func myUsage() {
+	fmt.Printf("Usage: %s [OPTIONS] argument ...\n", os.Args[0])
+	flag.PrintDefaults()
 }

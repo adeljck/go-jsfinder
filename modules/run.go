@@ -2,19 +2,20 @@ package modules
 
 import (
 	"jsfinder/common"
-	"log"
 )
 
 func Run() {
 	if common.FilePath == "" {
-		Result, err := GetResponseData(common.URL)
-		if err != nil {
-			log.Fatalln(err)
+		if common.DeepFind {
+
 		} else {
-			common.Results = append(common.Results, *Result)
-			ExportCsv()
+			FindByUrlDeep()
 		}
 	} else {
+		if common.JSFile {
 
+		} else {
+
+		}
 	}
 }

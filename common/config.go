@@ -8,7 +8,7 @@ var (
 	Cookie     string
 	Thread     int
 	DeepFind   bool
-	JSFilePath bool
+	JSFile     bool
 	CsvOutPut  bool
 	HtmlOutPut bool
 	Version    string = "0.0.1"
