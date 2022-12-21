@@ -5,6 +5,5 @@ JSFinder Golang版本
 * USAGE：jsfinder.exe -u "https://www.baidu.com"
 * 运行结果：
 
-![截图](https://github.com/msfisgood/JSFinderAAA/blob/main/image.png)
 
 * 引用：https://github.com/Threezh1/JSFinder 
